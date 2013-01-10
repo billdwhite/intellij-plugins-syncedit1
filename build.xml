@@ -1,0 +1,5 @@
+<project default="Deploy">
+  <target name="Deploy">
+    <copy file=".\SyncEdit.jar" todir=".IntelliJIdeaXX\config\plugins"/>
+  </target>
+</project>

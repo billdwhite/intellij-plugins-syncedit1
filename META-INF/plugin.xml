@@ -1,0 +1,86 @@
+<!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
+<idea-plugin>
+  <name>SyncEdit</name>
+  <description><![CDATA[
+    Similar to 'SyncEdit' functionality already in Borland Delphi, and soon to be in Eclipse...
+    This plugin allows you to do an inplace synchronized edit of all instances of a string within a defined range.<br><br>
+
+    A "SyncEdit Mode" menu item is added to the Search and Editor Popup menus.  Simply select a range to be edited,
+    enter "SyncEdit Mode" and all words in the marked range become 'live' - any changes to an instance of a word changes
+    all matching strings in real-time.<br><br>
+
+    When in SyncEdit mode, pressing TAB/Ctrl+TAB will take you forward to the next/previous SyncEditable word found, respectively.<br><br>
+
+    The decision about the word to SyncEdit is determined by a 'Select Word' type operation at the current cursor location
+    (respecting any CamelHump settings) when a modification is made. However, you can SyncEdit a custom region of text by
+    first selecting it and then invoking the SyncEdit action again, or even just start typing to replace the substring
+    completely.<br><br>
+
+    There is also a "Paste with SyncEdit" action added to the Edit Menu - this will execute a paste and automatically
+    enter SyncEdit Mode for the range of the pasted text, great for tweaking pasted code fragments for the context they
+    are used in.<br><br>
+
+    The mode can be exited by pressing either escape or enter - once to exit SyncEdit on a word, and once again to stop
+    SyncEditing a range.  The colours used by the SyncEdit plugin can be customised on the Plugins tab of the editor
+    Colors & Fonts settings.<br><br>
+
+    Known Bugs:<br>
+    * If the whole file is selected, SyncEdit can get very confused if optimization or auto-insertion of imports occurs.
+    I do not currently know of any way to detect that an edit is due to one of these operations, please let me know if
+    you can help.
+    ]]>
+  </description>
+  <version>1.1.1</version>
+  <vendor email="">Nathan Brown</vendor>
+  <change-notes><![CDATA[
+    1.1.1 - Tweaked Color Settings Page text.<br>
+    1.1.0 - Features added:<br>
+            Tab/Ctrl+Tab now cycles back/forth through SyncEditable words within the selected SyncEdit range.<br>
+            SyncEdit active range highlight colour is now customizable through the Plugins tab of the Colors & Fonts settings.<br><br>
+            Bugs fixed:<br>
+            Fixed Bug which would garble text when a SyncEditing word was typed over.<br>
+            Improved detection of words to modify - typing at the end of a sub-word in a larger word would modify the
+            next sub-word, not the previous sub-word.<br>
+            Improved Home/End behaviour to match Inplace Rename.<br><br>
+]]>
+  </change-notes>
+  <idea-version since-build="4153"/>
+  <application-components>
+    <component>
+      <implementation-class>com.anecdote.ideaplugins.syncedit.SyncEditApplicationComponent</implementation-class>
+    </component>
+  </application-components>
+  <project-components>
+    <component>
+      <implementation-class>com.anecdote.ideaplugins.syncedit.SyncEditProjectComponent</implementation-class>
+    </component>
+  </project-components>
+  <actions>
+    <action id="SyncEditModeAction" class="com.anecdote.ideaplugins.syncedit.SyncEditModeAction" text="SyncEdit Mode"
+            description="Activate SyncEdit Mode">
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt R"/>
+      <add-to-group group-id="SearchMenu" anchor="last"/>
+      <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="RefactoringMenu"/>
+    </action>
+    <action id="SyncEditModePasteAction" class="com.anecdote.ideaplugins.syncedit.SyncEditModePasteAction"
+            text="Paste with SyncEdit"
+            description="Execute a paste, setting SyncEdit mode on the pasted block">
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt INSERT"/>
+      <add-to-group group-id="CutCopyPasteGroup" anchor="after" relative-to-action="EditorPasteSimple"/>
+    </action>
+    <action id="PreviousSyncEditableWordAction" class="com.anecdote.ideaplugins.syncedit.PreviousSyncEditableWordAction"
+            text="Previous SyncEditable Word"
+            description="Selects the previous SyncEditable word when in SyncEdit Mode">
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl TAB"/>
+      <add-to-group group-id="EditorActions" anchor="last"/>
+      <add-to-group group-id="GoToMenu" anchor="after" relative-to-action="GotoPreviousTodo"/>
+    </action>
+    <action id="NextSyncEditableWordAction" class="com.anecdote.ideaplugins.syncedit.NextSyncEditableWordAction"
+            text="Next SyncEditable Word"
+            description="Selects the next SyncEditable word when in SyncEdit Mode">
+      <keyboard-shortcut keymap="$default" first-keystroke="TAB"/>
+      <add-to-group group-id="EditorActions" anchor="last"/>
+      <add-to-group group-id="GoToMenu" anchor="after" relative-to-action="PreviousSyncEditableWordAction"/>
+    </action>
+  </actions>
+</idea-plugin>
