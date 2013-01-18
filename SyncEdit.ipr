@@ -774,7 +774,7 @@
   <component name="libraryTable">
     <library name="idea">
       <CLASSES>
-        <root url="jar://D:/idea_4153/lib/idea.jar!/" />
+        <root url="jar://$APPLICATION_HOME_DIR$/lib/idea.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />

@@ -59,7 +59,7 @@
     <action id="SyncEditModeAction" class="com.anecdote.ideaplugins.syncedit.SyncEditModeAction" text="SyncEdit Mode"
             description="Activate SyncEdit Mode">
       <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt R"/>
-      <add-to-group group-id="SearchMenu" anchor="last"/>
+      <add-to-group group-id="EditMenu" anchor="last"/>
       <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="RefactoringMenu"/>
     </action>
     <action id="SyncEditModePasteAction" class="com.anecdote.ideaplugins.syncedit.SyncEditModePasteAction"
